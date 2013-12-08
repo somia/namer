@@ -82,6 +82,7 @@ def main():
 				with tempfile.NamedTemporaryFile(prefix="." + basename, dir=dirname) as temp:
 					print(content, file=temp)
 					temp.flush()
+					os.chmod(temp.name, 0644)
 					os.rename(temp.name, path)
 					temp.delete = False
 					ok = True
