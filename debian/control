@@ -1,0 +1,11 @@
+Source: namer
+Section: other
+Priority: extra
+Maintainer: Timo Savola <timo@ninchat.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.2
+
+Package: namer
+Architecture: all
+Depends: ${python:Depends}, ${misc:Depends}, python-boto, upstart, lsb-base (>= 3.0-6)
+Description: Unique service naming using Amazon DynamoDB

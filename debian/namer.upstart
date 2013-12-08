@@ -1,0 +1,30 @@
+task
+start on runlevel [2345]
+emits namer-ready
+
+script
+	DYNAMODB_TABLE=
+	CONF_FILES=$(test -d /etc/namer && find /etc/namer -mindepth 1 -maxdepth 1 -name '*.conf')
+
+	if [ -r /etc/default/namer ]
+	then . /etc/default/namer
+	fi
+
+	if [ -z "${CONF_FILES}" ]
+	then exit 0
+	fi
+
+	if [ -z "${DYNAMODB_TABLE}" ]
+	then exit 1
+	fi
+
+	RETVAL=0
+	for TYPE in $(python -m namer ${DYNAMODB_TABLE} ${CONF_FILES} || echo .FAILED.)
+	do
+		if [ ${TYPE} = .FAILED. ]
+		then RETVAL=1
+		else emit namer-ready TYPE=${TYPE}
+		fi
+	done
+	exit ${RETVAL}
+end script
