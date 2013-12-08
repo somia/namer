@@ -23,7 +23,7 @@ script
 	do
 		if [ ${TYPE} = .FAILED. ]
 		then RETVAL=1
-		else emit namer-ready TYPE=${TYPE}
+		else initctl emit namer-ready TYPE=${TYPE}
 		fi
 	done
 	exit ${RETVAL}

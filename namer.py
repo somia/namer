@@ -7,6 +7,7 @@ import argparse
 import logging
 import os
 import random
+import sys
 import tempfile
 import time
 
@@ -33,6 +34,8 @@ def main():
 
 	config = configparser.SafeConfigParser()
 	config.read(args.conffiles)
+
+	retval = 0
 
 	for section in config.sections():
 		log.info("registering %s", section)
@@ -90,9 +93,15 @@ def main():
 		else:
 			log.warning("unregistering %s %d", section, name)
 			table.delete_item(type=section, name=name)
+			retval = 1
+
+	return retval
 
 if __name__ == "__main__":
 	try:
-		main()
+		retval = main()
 	except Exception:
 		log.exception("failed")
+		retval = 1
+
+	sys.exit(retval)
