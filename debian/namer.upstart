@@ -4,7 +4,7 @@ emits namer-ready
 
 script
 	DYNAMODB_TABLE=
-	CONF_FILES=$(test -d /etc/namer && find /etc/namer -mindepth 1 -maxdepth 1 -name '*.conf')
+	CONF_FILES=$(! test -d /etc/namer || find /etc/namer -mindepth 1 -maxdepth 1 -name '*.conf')
 
 	if [ -r /etc/default/namer ]
 	then . /etc/default/namer
